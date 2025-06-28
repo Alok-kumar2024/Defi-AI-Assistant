@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    style="@style/backgroundSignIn" xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".view.SignIn">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/CvSignIn"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:cardCornerRadius="50dp"
+            android:layout_marginTop="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                style="@style/TopImageSignIn"
+                android:id="@+id/BitCoinImgSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@drawable/bit_coin_vector"/>
+
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            style="@style/TopTextSignIn"
+            android:id="@+id/TvSignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sign In"
+            android:textSize="32sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/CvSignIn"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            style="@style/SecondartText"
+            android:id="@+id/TvSomeTextSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To Your AI-Defi-Account"
+            android:textSize="25sp"
+            app:layout_constraintTop_toBottomOf="@id/TvSignIn"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginTop="5dp"/>
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextSignIn"
+            android:id="@+id/TILemailSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginHorizontal="30dp"
+            android:elevation="10dp"
+            android:layout_marginTop="20dp"
+            android:hint="Email ID"
+            app:startIconDrawable="@drawable/email_vector"
+            app:layout_constraintTop_toBottomOf="@+id/TvSomeTextSignUp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/TopTextSignIn"
+                android:id="@+id/TETemailSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:paddingStart="40dp"
+                android:background="@color/transparent"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            style="@style/EditTextSignIn"
+            android:id="@+id/TILpasswordSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginHorizontal="30dp"
+            android:elevation="10dp"
+            android:layout_marginTop="20dp"
+            android:hint="Password"
+            app:startIconDrawable="@drawable/lock_vector"
+            app:passwordToggleEnabled="true"
+            app:layout_constraintTop_toBottomOf="@+id/TILemailSignIn">
+
+            <com.google.android.material.textfield.TextInputEditText
+                style="@style/TopTextSignIn"
+                android:id="@+id/TETpasswordSignIn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="18sp"
+                android:inputType="textPassword"
+                android:paddingStart="40dp"
+                android:paddingEnd="20dp"
+                android:background="@color/transparent"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            style="@style/TopTextSignIn"
+            android:id="@+id/TvForgotPasswordSignIn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Forgot Password?"
+            android:textSize="24sp"
+            android:fontFamily="sans-serif-condensed"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TILpasswordSignIn"
+            android:layout_marginTop="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginEnd="10dp"/>
+
+        <Button
+            style="@style/BtnSignIn"
+            android:id="@+id/BtnSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Sign In"
+            android:textSize="22sp"
+            android:layout_marginHorizontal="70dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/bg_text_signin_up_small_corner"
+            app:backgroundTint="@color/blue"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TvForgotPasswordSignIn"/>
+
+        <LinearLayout
+            android:id="@+id/LLDividerSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            app:layout_constraintTop_toBottomOf="@+id/BtnSignIn">
+
+            <View
+                style="@style/DividerViewSignIn"
+                android:layout_width="100dp"
+                android:layout_height="1dp"
+                android:background="@color/black"
+                android:layout_gravity="center"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="10dp"/>
+
+            <TextView
+                style="@style/TopTextSignIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="OR Sign In With"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+
+            <View
+                style="@style/DividerViewSignIn"
+                android:layout_width="100dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="20dp"
+                android:background="@color/black"
+                android:layout_gravity="center"/>
+
+
+        </LinearLayout>
+
+        <Button
+            style="@style/BtnWalletSignIn"
+            android:id="@+id/BtnSignInWithWallet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/LLDividerSignIn"
+            android:layout_marginTop="20dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:drawableLeft="@drawable/wallet_vector"
+            android:text="Sign In With Wallet"
+            android:textSize="20dp"
+            android:fontFamily="sans-serif"
+            android:background="@drawable/bg_text_signin_up_small_corner"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            android:layout_marginVertical="20sp"
+            app:layout_constraintTop_toBottomOf="@+id/BtnSignInWithWallet"
+            android:gravity="center">
+
+            <TextView
+                style="@style/TopTextSignIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don't have an account?"
+                android:textSize="20sp" />
+
+            <TextView
+                style="@style/SignUpTextSignIn"
+                android:id="@+id/TvSignUp_SignIn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:focusable="true"
+                android:text="Sign Up"
+                android:clickable="true"
+                android:textSize="20sp"
+                android:fontFamily="sans-serif-condensed"/>
+
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

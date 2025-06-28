@@ -6,4 +6,56 @@
     </style>
 
     <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
+    
+<!--LIGHT THEME-->
+    
+    
+<!--    Sign In Activity Style-->
+    
+    <style name="backgroundSignIn">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="TopImageSignIn">
+        <item name="android:background">@drawable/bg_img_signin_light</item>
+        <item name="tint">@color/black</item>
+    </style>
+
+    <style name="TopTextSignIn">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="SecondartText">
+        <item name="android:textColor">@color/gray_dark</item>
+    </style>
+
+    <style name="EditTextSignIn">
+        <item name="android:background">@drawable/bg_text_signin_up_small_corner</item>
+        <item name="android:backgroundTint">@color/gray_light</item>
+        <item name="android:textColorHint">@color/gray_dark</item>
+        <item name="passwordToggleTint">@color/black</item>
+    </style>
+    
+    <style name="BtnSignIn">
+        <item name="android:background">@drawable/bg_text_signin_up_small_corner</item>
+        <item name="backgroundTint">@color/blue_dark</item>
+    </style>
+
+    <style name="DividerViewSignIn">
+        <item name="android:backgroundTint">@color/black</item>
+    </style>
+
+    <style name="BtnWalletSignIn">
+        <item name="android:background">@drawable/bg_text_signin_up_small_corner</item>
+        <item name="backgroundTint">#DBD9D9</item>
+        <item name="android:elevation">5dp</item>
+        <item name="android:drawableTint">@color/black</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="SignUpTextSignIn">
+        <item name="android:textColor">#0A26E0</item>
+    </style>
+
+    
 </resources>
