@@ -57,5 +57,41 @@
         <item name="android:textColor">#0A26E0</item>
     </style>
 
-    
+<!--    Fragment Market Style-->
+
+    <style name="BackgroundMarket">
+        <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="TopTextMarket">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="editTextSearchMarket">
+        <item name="android:background">@drawable/edittext_bg</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:drawableTint">@color/black</item>
+        <item name="android:textColorHint">@color/gray</item>
+        <item name="android:elevation">5dp</item>
+    </style>
+
+    <style name="chip_groupMarket">
+
+        <item name="chipBackgroundColor">@color/white</item>
+        <item name="rippleColor">@color/bright_cyan</item>
+        <item name="android:textColor">@color/black</item>
+
+    </style>
+
+<!--    Crypto-Coin Layout Style-->
+    <style name="CryptoCoinBackground">
+        <item name="android:background">@drawable/edittext_bg</item>
+        <item name="android:elevation">5dp</item>
+    </style>
+
+    <style name="CryptoCoinIncrementText">
+        <item name="android:textColor">#1C9121</item>
+    </style>
+
 </resources>

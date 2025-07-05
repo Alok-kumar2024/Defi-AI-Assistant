@@ -264,6 +264,19 @@
 
         </LinearLayout>
 
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/Lottie_Animation_SignUp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_fileName="lottie_bit_rolling.json"
+            android:elevation="15dp"
+            app:lottie_autoPlay="true"
+            android:visibility="gone"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

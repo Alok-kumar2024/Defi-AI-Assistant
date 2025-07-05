@@ -26,6 +26,9 @@ android {
             )
         }
     }
+    buildFeatures {
+        viewBinding = true
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
@@ -45,4 +48,15 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    //Chart
+    implementation ("com.github.PhilJay:MPAndroidChart:v3.1.0")
+
+    //for refreshing
+    implementation (libs.androidx.swiperefreshlayout)
+
+    //Lottie Animation Dependency
+    implementation(libs.lottie)
+
+
 }

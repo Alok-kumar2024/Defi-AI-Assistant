@@ -1,3 +1,12 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">Ai Defi Assistant</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="all_market">All</string>
+    <string name="top_gainer_market">Top Gainer</string>
+    <string name="top_loser_market">Top Loser</string>
+    <string name="search_market">Search</string>
+    <string name="markets_topText">Markets</string>
+    <string name="open_nav">Open Navigation Drawer</string>
+    <string name="close_nav">Close Navigation Drawer</string>
 </resources>

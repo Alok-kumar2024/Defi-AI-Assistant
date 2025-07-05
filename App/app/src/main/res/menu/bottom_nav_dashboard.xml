@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <item android:id="@+id/Bottom_Nav_Home"
+            android:title="Home"
+            android:icon="@drawable/home_vector"/>
+
+        <item android:id="@+id/Bottom_Nav_Analytics"
+            android:title="Analytics"
+            android:icon="@drawable/analytics_vector"/>
+
+        <item android:id="@+id/Bottom_Nav_DigitalAssests"
+            android:title="NFTS Assests"
+            android:icon="@drawable/nft_vector"/>
+
+
+</menu>

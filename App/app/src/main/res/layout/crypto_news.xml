@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    style="@style/CryptoCoinBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        style="@style/TopTextSignIn"
+        android:id="@+id/TvNews_CryptoNews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="5dp"
+        android:textSize="20sp"
+        android:text="new"
+        android:textStyle="bold"
+        app:layout_constraintHorizontal_bias="0.052"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/IVNewsImage_CryptoNews"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        style="@style/TopImageSignIn"
+        android:id="@+id/IVNewsImage_CryptoNews"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_margin="10dp"
+        android:src="@drawable/bit_coin_vector"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginEnd="5dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        style="@style/SecondartText"
+        android:id="@+id/TvTimeAndOther_CryptoNews"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="coin Desk * 2hr ago"
+        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/TvNews_CryptoNews"
+        android:layout_marginStart="20sp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
