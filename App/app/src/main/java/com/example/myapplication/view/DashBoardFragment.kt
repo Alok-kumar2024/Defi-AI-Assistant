@@ -11,6 +11,8 @@ import com.example.myapplication.databinding.FragmentDashBoardBinding
 import com.example.myapplication.viewModel.Bottom
 import com.example.myapplication.viewModel.BottomNav_ViewModel
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.activity.OnBackPressedCallback
+import java.util.Objects
 
 class DashBoardFragment : Fragment() {
 
@@ -53,6 +55,18 @@ class DashBoardFragment : Fragment() {
         bottomNav = binding.bottomNav
 
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (currentFragment != Bottom.HOME) {
+                    bottomNav_ViewModel.bottomChoosen(Bottom.HOME)
+                    binding.bottomNav.selectedItemId = R.id.Bottom_Nav_Home
+                } else {
+                    requireActivity().finish()
+                }
+            }
+        })
+
+
         bottomNav_ViewModel.BottomNav.observe(viewLifecycleOwner){nav->
             currentFragment = nav
 
@@ -90,6 +104,7 @@ class DashBoardFragment : Fragment() {
         }
 
 
+
         return binding.root
     }
 
@@ -97,5 +112,7 @@ class DashBoardFragment : Fragment() {
         parentFragmentManager.beginTransaction().replace(R.id.FrameLayoutDashBoard, fragment)
             .commit()
     }
+
+
 
 }

@@ -98,7 +98,8 @@
                     android:id="@+id/RvCryptoCoins"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"/>
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/cryptocoin_layout"/>
 
                 <TextView
                     style="@style/TopTextSignIn"
@@ -112,7 +113,8 @@
                     android:id="@+id/RcCryptoNews"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:nestedScrollingEnabled="false"/>
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/crypto_news"/>
 
             </LinearLayout>
 

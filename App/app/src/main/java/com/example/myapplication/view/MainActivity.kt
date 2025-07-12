@@ -13,12 +13,14 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityMainBinding
 
     private lateinit var drawerLayout : DrawerLayout
+    private lateinit var navigationView : NavigationView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,7 +38,7 @@ class MainActivity : AppCompatActivity() {
         val toolbar = binding.ToolBar
         setSupportActionBar(toolbar)
 
-        val navigationView = binding.NvMainActivity
+        navigationView = binding.NvMainActivity
 
         val toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open_nav,R.string.close_nav)
         drawerLayout.addDrawerListener(toggle)
@@ -76,5 +78,23 @@ class MainActivity : AppCompatActivity() {
         supportFragmentManager.beginTransaction().replace(R.id.FrameLayoutMainActivity,fragment).commit()
     }
 
+    override fun onBackPressed() {
+        if(drawerLayout.isDrawerOpen(GravityCompat.START))
+        {
+            drawerLayout.closeDrawer(GravityCompat.START)
+        }else{
+            val currentFragment = supportFragmentManager.findFragmentById(R.id.FrameLayoutMainActivity)
+
+            if (currentFragment !is DashBoardFragment)
+            {
+                switchFragment(DashBoardFragment())
+                navigationView.setCheckedItem(R.id.Dasboard_Main)
+
+            }else
+            {
+                super.onBackPressed()
+            }
+        }
+    }
 
 }

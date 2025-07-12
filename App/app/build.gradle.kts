@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.google.gms.google.services)
 }
 
 android {
@@ -45,6 +46,8 @@ dependencies {
     implementation(libs.material)
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
+    implementation(libs.firebase.auth)
+    implementation(libs.firebase.database)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -58,5 +61,19 @@ dependencies {
     //Lottie Animation Dependency
     implementation(libs.lottie)
 
+
+    //For Wallet Connect
+    implementation(platform("com.walletconnect:android-bom:1.18.0"))
+    implementation("com.walletconnect:android-core")
+    implementation("com.walletconnect:web3wallet")
+    implementation("com.walletconnect:sign")
+
+    // WalletConnectKit for modal UI
+//    implementation("dev.pinkroom.walletconnectkit:core:2.0.0-alpha03")
+//    implementation("dev.pinkroom.walletconnectkit:sign-dapp:2.0.0-alpha03")
+
+
+    implementation("androidx.browser:browser:1.5.0")
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 
 }

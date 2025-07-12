@@ -22,130 +22,242 @@
             android:textSize="30sp"
             android:textStyle="bold"/>
 
-        <LinearLayout
-            android:id="@+id/LLTotalValue_HomeFragment"
+        <ScrollView
+            android:id="@+id/SvWholeWalletUI"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
+            android:layout_height="match_parent"
+            android:fillViewport="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginHorizontal="30dp"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/edittext_bg"
-            android:backgroundTint="@color/yellow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginTop="60dp"
+            android:visibility="gone"
             app:layout_constraintTop_toBottomOf="@+id/TvHome_HomeFragment">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Total Wallet Value"
-                android:textSize="20sp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:id="@+id/LLTotalValue_HomeFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginHorizontal="30dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_bg"
+                    android:backgroundTint="@color/yellow"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Wallet Value"
+                        android:textSize="20sp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginStart="10dp"/>
+
+                    <TextView
+                        android:id="@+id/TvValueOFTokensTotal_HomeFragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="$45,800.00"
+                        android:textSize="24sp"
+                        android:textStyle="bold"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="10dp"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/LLTokenText_HomeFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:padding="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/LLTotalValue_HomeFragment"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tokens"
+                        android:textStyle="bold"
+                        android:textSize="24sp"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/TvViewALLTokens_HomeFragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View All"
+                        android:textSize="24sp"
+                        android:fontFamily="sans-serif-condensed"/>
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/TvNoTokensFound_HomeFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/LLTokenText_HomeFragment"
+                    app:layout_constraintBottom_toTopOf="@+id/LLTransaction_HomeFragment"
+                    android:text="No Tokens Found"
+                    android:textColor="@color/red"
+                    android:textSize="30sp"
+                    android:elevation="10dp"
+                    android:visibility="gone"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RvTokensOfUsers_HomeFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginHorizontal="10dp"
+                    android:padding="5dp"
+                    app:layout_constraintTop_toBottomOf="@+id/LLTokenText_HomeFragment"
+                    android:layout_marginTop="10dp"
+                    tools:listitem="@layout/cryptocoin_layout"/>
+
+                <LinearLayout
+                    android:id="@+id/LLTransaction_HomeFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:padding="10dp"
+                    app:layout_constraintTop_toBottomOf="@+id/RvTokensOfUsers_HomeFragment"
+                    android:layout_marginTop="10dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Transactions"
+                        android:textStyle="bold"
+                        android:textSize="24sp"/>
+
+                    <View
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/TvViewALLTransaction_HomeFragment"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="View All"
+                        android:textSize="24sp"
+                        android:fontFamily="sans-serif-condensed"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/TvNoTransactionsFound_HomeFragment"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/LLTransaction_HomeFragment"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="No Transactions Found"
+                    android:textColor="@color/red"
+                    android:textSize="30sp"
+                    android:elevation="10dp"
+                    android:visibility="gone"/>
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/RvTransactionsOfUsers_HomeFragment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    android:layout_marginHorizontal="10dp"
+                    android:padding="5dp"
+                    app:layout_constraintTop_toBottomOf="@+id/LLTransaction_HomeFragment"
+                    android:layout_marginTop="10dp"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/LLWalletConnect_HomeFragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/TvHome_HomeFragment"
+            app:layout_constraintVertical_bias="0.26">
+
+            <ImageView
+                android:id="@+id/IvWalletBitCoinConnect"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginStart="10dp"/>
+                android:src="@drawable/wallet_vector"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TvHome_HomeFragment" />
 
             <TextView
-                android:id="@+id/TvValueOFTokensTotal_HomeFragment"
+                android:id="@+id/TvWalletConectTitle_HomeFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$45,800.00"
-                android:textSize="24sp"
+                android:layout_marginVertical="10dp"
+                android:text="Connect Your\n       Wallet"
+                android:textSize="32sp"
                 android:textStyle="bold"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginBottom="10dp"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/LLTokenText_HomeFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:padding="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/LLTotalValue_HomeFragment"
-            android:layout_marginTop="10dp">
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/IvWalletBitCoinConnect" />
 
             <TextView
+                android:id="@+id/TvWalletConnectDetailMsg_HomeFragment"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tokens"
-                android:textStyle="bold"
-                android:textSize="24sp"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:id="@+id/TvViewALLTokens_HomeFragment"
-                android:layout_width="wrap_content"
+                android:layout_marginVertical="10dp"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Choose your preferred wallet\n   to connect with the app"
+                android:textSize="20sp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TvWalletConectTitle_HomeFragment" />
+            <!--        Change Style Later-->
+            <Button
+                style="@style/BtnSignIn"
+                android:id="@+id/BtnWalletConnect"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="View All"
+                android:layout_marginHorizontal="40dp"
+                android:layout_marginVertical="30sp"
+                android:text="Connect Wallet"
                 android:textSize="24sp"
-                android:fontFamily="sans-serif-condensed"/>
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/TvWalletConnectDetailMsg_HomeFragment" />
 
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RvTokensOfUsers_HomeFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginHorizontal="10dp"
-            android:padding="5dp"
-            app:layout_constraintTop_toBottomOf="@+id/LLTokenText_HomeFragment"
-            android:layout_marginTop="10dp"/>
 
-        <LinearLayout
-            android:id="@+id/LLTransaction_HomeFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:padding="10dp"
-            app:layout_constraintTop_toBottomOf="@+id/RvTokensOfUsers_HomeFragment"
-            android:layout_marginTop="10dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Transactions"
-                android:textStyle="bold"
-                android:textSize="24sp"/>
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_weight="1"/>
-
-            <TextView
-                android:id="@+id/TvViewALLTransaction_HomeFragment"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="View All"
-                android:textSize="24sp"
-                android:fontFamily="sans-serif-condensed"/>
-
-        </LinearLayout>
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/RvTransactionsOfUsers_HomeFragment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:layout_marginHorizontal="10dp"
-            android:padding="5dp"
-            app:layout_constraintTop_toBottomOf="@+id/LLTransaction_HomeFragment"
-            android:layout_marginTop="10dp"/>
-        
-        
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "696804840201",
+    "project_id": "defi-ai-assistant",
+    "storage_bucket": "defi-ai-assistant.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:696804840201:android:57e37ab28655f5f68639d8",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9550hfz_rD-6isyz00IympR0o2zpv1g4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
