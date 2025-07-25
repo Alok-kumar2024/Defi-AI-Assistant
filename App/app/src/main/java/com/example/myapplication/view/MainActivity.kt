@@ -1,6 +1,9 @@
 package com.example.myapplication.view
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.MenuItem
 import androidx.activity.enableEdgeToEdge
@@ -13,6 +16,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.example.myapplication.model.ThemeHelper
 import com.google.android.material.navigation.NavigationView
 
 class MainActivity : AppCompatActivity() {
@@ -25,12 +29,29 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val sharetheme = getSharedPreferences("theme", MODE_PRIVATE)
+        val savedTheme =
+            sharetheme.getString("themeOption", ThemeHelper.SYSTEM) ?: ThemeHelper.SYSTEM
+        ThemeHelper.applyTheme(savedTheme)
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        Log.d("Sign","Yes, in MainActivity")
+
+        val share = getSharedPreferences("SIGNUP", MODE_PRIVATE)
+        val isSignIn = share.getBoolean("SignIn",false)
+
+        Log.d("Sign","Issignin $isSignIn")
+        if (!isSignIn){
+            val intent = Intent(this,SignIn::class.java)
+            startActivity(intent)
+            finishAffinity()
         }
 
         drawerLayout = binding.main
@@ -43,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         val toggle = ActionBarDrawerToggle(this,drawerLayout,toolbar,R.string.open_nav,R.string.close_nav)
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+
 
         if (savedInstanceState == null)
         {

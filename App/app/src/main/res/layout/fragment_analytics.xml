@@ -7,19 +7,152 @@
     tools:context=".view.AnalyticsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/SettingsBackground"
+        android:id="@+id/WholeAnalytics"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
 
+        <!-- Title -->
         <TextView
+            style="@style/TopTextSignIn"
+            android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="32sp"
-            android:text="Analytics Fragment"
+            android:text="Portfolio Analytics"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <!-- Total Value Card -->
+        <LinearLayout
+            style="@style/CryptoCoinBackground"
+            android:id="@+id/LLTotalCardValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:elevation="10dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:gravity="center_vertical"
+            android:layout_margin="8dp"
+            android:clipToOutline="true"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+            app:layout_constraintTop_toBottomOf="@+id/title">
+
+            <TextView
+                style="@style/TopTextSignIn"
+                android:id="@+id/tvTotalValueLabel_Analytics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total Value"
+                android:textSize="14sp" />
+
+            <TextView
+                style="@style/TopTextSignIn"
+                android:id="@+id/tvTotalValue_Analytics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$0.00"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Pie Chart -->
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/pieChart_Analytics"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/LLTotalCardValue"/>
+
+        <!-- Top Token Card -->
+        <LinearLayout
+            style="@style/CryptoCoinBackground"
+            android:id="@+id/topTokenCard_Analytics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:elevation="10dp"
+            android:layout_marginHorizontal="5dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/pieChart_Analytics">
+
+            <TextView
+                style="@style/TopTextSignIn"
+                android:id="@+id/tvTopTokenLabel_Analytics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Top Token"
+                android:textSize="14sp" />
+
+            <TextView
+                style="@style/TopTextSignIn"
+                android:id="@+id/tvTopTokenName_Analytics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="None"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/TopTextSignIn"
+                android:id="@+id/tvTopTokenValue_Analytics"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="$0.00 (0%)"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+
+        <!-- Token List -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvTokenDistribution_Analytics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:layout_marginVertical="15dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topTokenCard_Analytics"/>
+
+        <TextView
+            android:id="@+id/TvNoTokensFound_Analytics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topTokenCard_Analytics"
+            android:text="No Tokens Found"
+            android:textColor="@color/red"
+            android:textSize="30sp"
+            android:elevation="10dp"
+            android:visibility="gone"/>
+
+        <com.airbnb.lottie.LottieAnimationView
+            style="@style/LoadingAnimation"
+            android:id="@+id/LottieAnimationLoading_Analytics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:lottie_autoPlay="true"
+            android:visibility="gone"
+            app:lottie_fileName="loading.json"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/topTokenCard_Analytics" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
+
 
 </FrameLayout>

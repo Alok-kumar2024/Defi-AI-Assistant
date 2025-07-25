@@ -15,14 +15,18 @@ import androidx.core.view.WindowInsetsCompat
 import com.airbnb.lottie.LottieDrawable
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivitySignUpBinding
+import com.example.myapplication.model.ThemeHelper
 import com.example.myapplication.model.signUpDataClass
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthActionCodeException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class SignUp : AppCompatActivity() {
 
@@ -36,9 +40,17 @@ class SignUp : AppCompatActivity() {
     private var timeOutRunnable: Runnable? = null
     private var signUpProgress = false
 
+    private var user : Map<*,*>? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val sharetheme = getSharedPreferences("theme", MODE_PRIVATE)
+        val savedTheme =
+            sharetheme.getString("themeOption", ThemeHelper.SYSTEM) ?: ThemeHelper.SYSTEM
+        ThemeHelper.applyTheme(savedTheme)
+
         binding = ActivitySignUpBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -55,6 +67,7 @@ class SignUp : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
 
         binding.BtnSignIn.setOnClickListener {
 
@@ -149,12 +162,63 @@ class SignUp : AppCompatActivity() {
                                             val share = getSharedPreferences("SIGNUP", MODE_PRIVATE)
                                             val editor = share.edit()
 
-                                            editor.putString("EMAIL",email.toString()).apply()
-                                            editor.putString("UNIQUEKEY",uniqueKey).apply()
+                                            editor.putString("EMAIL",email.toString())
+                                            editor.putString("UNIQUEKEY",uniqueKey)
+                                            editor.putBoolean("SignIn",true)
+                                            editor.apply()
 
-                                            val intent = Intent(this,MainActivity::class.java)
-                                            startActivity(intent)
-                                            finish()
+                                            FirebaseDatabase.getInstance().getReference("USERS").child(uniqueKey)
+                                                .child("wallets").orderByChild("choosen").equalTo(true)
+                                                .addListenerForSingleValueEvent( object :
+                                                    ValueEventListener {
+                                                    override fun onDataChange(snapshot: DataSnapshot) {
+                                                        if (snapshot.exists())
+                                                        {
+                                                            Log.d("signin","Inside snapshot exists")
+                                                            for(userSnapshot in snapshot.children)
+                                                            {
+                                                                user = userSnapshot.value as? Map<*, *>
+                                                                Log.d("signin","Inside snapshot exists")
+                                                                Log.d("signIn","The User Value in For Loop is $user")
+                                                            }
+
+                                                            if (user != null)
+                                                            {
+                                                                Log.d("signin","Inside user != nul if")
+                                                                val address = user?.get("address") ?: "Not Got"
+                                                                val choosen = user?.get("choosen") ?: "Not Got"
+                                                                editor.apply()
+                                                                Log.d("SignIn","The Address of the choosen Wallet : $address\n The Choosen Value : $choosen")
+
+                                                                editor.putString("address", address.toString()).apply()
+                                                                editor.putBoolean("choosen", choosen as Boolean).apply()
+
+                                                                val intent = Intent(this@SignUp,MainActivity::class.java)
+                                                                startActivity(intent)
+                                                                finish()
+
+                                                            }else{
+                                                                Toast.makeText(this@SignUp,"Wallet Found , but data loading here is Null",Toast.LENGTH_SHORT).show()
+                                                            }
+
+                                                        }else{
+                                                            Log.d("signin","Inside snapshot do not exists")
+                                                            val intent = Intent(this@SignUp,MainActivity::class.java)
+                                                            startActivity(intent)
+                                                            finish()
+
+                                                        }
+                                                    }
+
+                                                    override fun onCancelled(error: DatabaseError) {
+                                                        Log.e("FirebaseError", "Error: ${error.message}")
+                                                    }
+
+                                                })
+
+//                                            val intent = Intent(this,MainActivity::class.java)
+//                                            startActivity(intent)
+//                                            finish()
                                             signUpResetState("Completed SignUp")
                                         }else{
                                             Toast.makeText(this,"Error : Couldn't Sync To the Database.",Toast.LENGTH_SHORT).show()

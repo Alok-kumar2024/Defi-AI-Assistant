@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    style="@style/LLBotChat"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="start">
+
+    <ImageView
+        android:id="@+id/IvUserChatLayout"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_gravity="center"
+        android:src="@drawable/ai_vector"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="10dp"/>
+
+    <TextView
+        style="@style/TvUserChat"
+        android:id="@+id/Bot_text"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:textSize="24sp"
+        android:layout_marginEnd="5dp"
+        android:layout_marginVertical="10dp"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_marginHorizontal="10dp" />
+
+</LinearLayout>

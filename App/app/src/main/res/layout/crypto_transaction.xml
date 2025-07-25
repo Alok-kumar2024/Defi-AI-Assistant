@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    style="@style/theme_alertDialogBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:elevation="10dp"
+    android:layout_marginVertical="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        style="@style/SettingsImageButton"
+        android:id="@+id/IvSend_Receive_Transaction"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/send_transaction_vector"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="10dp"/>
+
+    <TextView
+        style="@style/TopTextSignIn"
+        android:id="@+id/TvSend_Transaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Send"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toRightOf="@+id/IvSend_Receive_Transaction"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginVertical="10dp"/>
+
+    <TextView
+        style="@style/SettingsTextSecondary"
+        android:id="@+id/TvAssetsType_Transaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Native"
+        app:layout_constraintLeft_toRightOf="@+id/IvSend_Receive_Transaction"
+        app:layout_constraintTop_toBottomOf="@+id/TvSend_Transaction"
+        android:textSize="18sp"/>
+
+    <TextView
+        style="@style/SettingsTextSecondary"
+        android:id="@+id/TvAddress_Transaction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Address"
+        android:textSize="20sp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/IvSend_Receive_Transaction"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="15dp"/>
+
+    <TextView
+        style="@style/SettingsTextSecondary"
+        android:id="@+id/TvTime_Transaction"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="Time"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/TvAddress_Transaction"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <ImageView
+        android:id="@+id/IvTokenLogo_Transaction"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:src="@drawable/bit_coin_vector"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginVertical="10dp"
+        android:scaleType="centerCrop"
+        android:layout_marginHorizontal="10dp"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        style="@style/TopTextSignIn"
+        android:id="@+id/TvTokenAmount_Transaction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="token amount"
+        android:textSize="20sp"
+        android:textAlignment="textEnd"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/IvTokenLogo_Transaction"
+        app:layout_constraintLeft_toRightOf="@+id/TvSend_Transaction"
+        android:layout_marginHorizontal="5dp"
+        android:layout_marginVertical="25dp"/>
+
+    <TextView
+        style="@style/TopTextSignIn"
+        android:id="@+id/TvPrice_Transaction"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Price"
+        android:textSize="18sp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/IvTokenLogo_Transaction"
+        android:layout_marginVertical="5dp"
+        android:layout_marginHorizontal="30sp"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,4 +9,7 @@
     <string name="markets_topText">Markets</string>
     <string name="open_nav">Open Navigation Drawer</string>
     <string name="close_nav">Close Navigation Drawer</string>
+    <string name="NewApiKey">288eca3fff7349adaf24fc6c74aea254</string>
+    <string name="help_center"><u>Help Center</u></string>
+    <string name="privacy_policy"><u>privacy policy</u></string>
 </resources>

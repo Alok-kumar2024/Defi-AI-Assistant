@@ -25,6 +25,10 @@ class DashBoardFragment : Fragment() {
 
     private lateinit var currentFragment : Bottom
 
+    private var homeFragment : HomeFragment? = null
+    private var analyticsFragment : AnalyticsFragment? = null
+    private var digitalAssetsFragment : DigitalAssestsFragment? = null
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -36,21 +40,31 @@ class DashBoardFragment : Fragment() {
 
         val currentnav = bottomNav_ViewModel.BottomNav.value
 
-        if (currentnav != null)
-        {
-            currentFragment = currentnav
+        val cm = childFragmentManager
 
-            val fragment = when(currentFragment)
-            {
-                Bottom.HOME -> HomeFragment()
-                Bottom.ANALYTICS -> AnalyticsFragment()
-                Bottom.NFTS -> DigitalAssestsFragment()
-            }
-            switchFragment(fragment)
-        }else
-        {
-            bottomNav_ViewModel.bottomChoosen(Bottom.HOME)
+        if (homeFragment == null){
+            homeFragment = HomeFragment()
+            cm.beginTransaction()
+                .add(R.id.FrameLayoutDashBoard,homeFragment!!,"homeFragment")
+                .commit()
         }
+
+        if (analyticsFragment == null){
+            analyticsFragment = AnalyticsFragment()
+            cm.beginTransaction()
+                .add(R.id.FrameLayoutDashBoard,analyticsFragment!!,"analyticsFragment")
+                .commit()
+        }
+
+        if (digitalAssetsFragment == null){
+            digitalAssetsFragment = DigitalAssestsFragment()
+            cm.beginTransaction()
+                .add(R.id.FrameLayoutDashBoard,digitalAssetsFragment!!,"digitalAssetsFragment")
+                .commit()
+        }
+
+        currentFragment = bottomNav_ViewModel.BottomNav.value ?: Bottom.HOME
+        showFragment(currentFragment)
 
         bottomNav = binding.bottomNav
 
@@ -68,13 +82,10 @@ class DashBoardFragment : Fragment() {
 
 
         bottomNav_ViewModel.BottomNav.observe(viewLifecycleOwner){nav->
-            currentFragment = nav
 
-            when(nav)
-            {
-                Bottom.HOME -> switchFragment(HomeFragment())
-                Bottom.ANALYTICS -> switchFragment(AnalyticsFragment())
-                Bottom.NFTS -> switchFragment(DigitalAssestsFragment())
+            if (nav != currentFragment){
+                currentFragment = nav
+                showFragment(nav)
             }
 
         }
@@ -103,16 +114,33 @@ class DashBoardFragment : Fragment() {
             }
         }
 
+        bottomNav.setOnItemReselectedListener {  }
+
 
 
         return binding.root
     }
 
-    fun switchFragment(fragment: Fragment) {
-        parentFragmentManager.beginTransaction().replace(R.id.FrameLayoutDashBoard, fragment)
-            .commit()
+    private fun showFragment(nav : Bottom){
+        val transaction = childFragmentManager.beginTransaction()
+
+        homeFragment?.let { transaction.hide(it) }
+        analyticsFragment?.let { transaction.hide(it) }
+        digitalAssetsFragment?.let { transaction.hide(it) }
+
+        when(nav){
+            Bottom.HOME -> homeFragment?.let { transaction.show(it) }
+            Bottom.ANALYTICS -> analyticsFragment?.let { transaction.show(it) }
+            Bottom.NFTS -> digitalAssetsFragment?.let { transaction.show(it) }
+        }
+
+        transaction.commit()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
 
 }

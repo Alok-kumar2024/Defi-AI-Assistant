@@ -94,4 +94,103 @@
         <item name="android:textColor">#1C9121</item>
     </style>
 
+<!--    Theme Alert Dialog Style-->
+
+    <style name="theme_alertDialogBackground">
+        <item name="android:background">@drawable/rounded_box_ll</item>
+        <item name="android:backgroundTint">#FFFFFF</item>
+        <item name="android:elevation">12dp</item>
+    </style>
+
+    <style name="theme_alertDialogTopText">
+        <item name="android:textColor">#212121</item>
+    </style>
+
+    <style name="theme_alertDialogRadialButton">
+        <item name="buttonTint">#388E3C</item> <!-- Medium green -->
+        <item name="android:textColor">#212121</item>
+    </style>
+
+    <style name="theme_alertDialogBtnCancel">
+        <item name="android:background">@drawable/bg_text_signin_up_small_corner</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="backgroundTint">#D32F2F</item> <!-- Red -->
+    </style>
+
+    <style name="theme_alertDialogBtnOk">
+        <item name="android:background">@drawable/bg_text_signin_up_small_corner</item>
+        <item name="android:textColor">#FFFFFF</item>
+        <item name="backgroundTint">#388E3C</item> <!-- Green -->
+    </style>
+
+<!--    Settings Fragment Style-->
+
+    <style name="SettingsBackground">
+        <item name="android:background">#F9F9FC</item> <!-- soft light with a hint of blue -->
+    </style>
+
+    <style name="SettingsTopTitleLL">
+        <item name="android:background">#FFFFFF</item>
+        <item name="android:elevation">8dp</item>
+    </style>
+
+    <style name="SettingsItemsLL">
+        <item name="android:background">@drawable/pop_up_background</item>
+        <item name="android:backgroundTint">#F0F1F6</item> <!-- very light blue-gray -->
+        <item name="android:elevation">10dp</item>
+    </style>
+
+    <style name="SettingsDivider">
+        <item name="android:background">#D3D6E2</item> <!-- pale bluish-gray -->
+    </style>
+
+    <style name="SettingsTextPrimary">
+        <item name="android:textColor">#1C1C1E</item> <!-- deep charcoal -->
+    </style>
+
+    <style name="SettingsTextSecondary">
+        <item name="android:textColor">#5F6368</item> <!-- Google’s medium gray -->
+    </style>
+
+    <style name="SettingsImageButton">
+        <item name="android:tint">#3A3A3C</item>
+    </style>
+
+<!--    AI Suggestion Style-->
+
+    <style name="EditTextAi">
+        <item name="android:textColorHint">@color/gray_dark</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:background">@drawable/bg_text_signin_up_small_corner</item>
+        <item name="android:backgroundTint">@color/white</item>
+        <item name="android:elevation">10dp</item>
+    </style>
+
+    <style name="Ai_Style_Image">
+        <item name="android:tint">@color/black</item>
+    </style>
+
+<!--    User Chat AI-Style-->
+    <style name="LLUserChat">
+        <item name="android:background">@drawable/bg_text_signin_up_small_corner</item>
+        <item name="android:backgroundTint">@color/blue</item>
+    </style>
+
+    <style name="TvUserChat">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+<!--    Bot Chat AI-Style-->
+    <style name="LLBotChat">
+        <item name="android:background">@drawable/bg_text_signin_up_small_corner</item>
+        <item name="android:backgroundTint">@color/green_dark</item>
+    </style>
+
+<!--    Loading Animation-->
+    <style name="LoadingAnimation">
+        <item name="lottie_colorFilter">@color/black</item>
+    </style>
+
+
+
 </resources>

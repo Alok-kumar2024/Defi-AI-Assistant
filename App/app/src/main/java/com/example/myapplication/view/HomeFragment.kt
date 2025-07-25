@@ -9,11 +9,26 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.HorizontalScrollView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.airbnb.lottie.LottieDrawable
 import com.example.myapplication.databinding.FragmentHomeBinding
+import com.example.myapplication.model.NetWorth
+import com.example.myapplication.model.ThemeHelper
+import com.example.myapplication.model.TokenBalance
+import com.example.myapplication.model.Transaction
+import com.example.myapplication.model.WalletData
+import com.example.myapplication.viewModel.TokenRvAdapter
+import com.example.myapplication.viewModel.TransactionRvAdapter
+import com.example.myapplication.viewModel.WalletDataViewModel
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.firestore.FirebaseFirestore
 import com.walletconnect.android.CoreClient
 import com.walletconnect.sign.client.Sign
 import com.walletconnect.sign.client.SignClient
@@ -22,9 +37,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.internal.addHeaderLenient
 import org.json.JSONObject
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities
 
 
 class HomeFragment : Fragment() {
@@ -35,6 +48,21 @@ class HomeFragment : Fragment() {
     private var selectedWalletNative: String? = null
     private var selectedWalletUniversal: String? = null
 
+    private lateinit var  walletDataViewModel : WalletDataViewModel
+
+    private var tokenDataRv = mutableListOf<TokenBalance>()
+    private var transactionDataRv = mutableListOf<Transaction>()
+
+    private lateinit var tokenAdapterRv : TokenRvAdapter
+    private lateinit var tokenRv : RecyclerView
+
+    private lateinit var transactionRv : RecyclerView
+    private lateinit var transactionAdapterRv : TransactionRvAdapter
+
+    private var totalValue : NetWorth? = null
+
+    private var userID = ""
+    private var addressFromSignIn = ""
 
 
     override fun onCreateView(
@@ -42,25 +70,125 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
+
+        val sharetheme = requireActivity().getSharedPreferences("theme", MODE_PRIVATE)
+        val savedTheme =
+            sharetheme.getString("themeOption", ThemeHelper.SYSTEM) ?: ThemeHelper.SYSTEM
+        ThemeHelper.applyTheme(savedTheme)
+
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
+
+        FirebaseFirestore.getInstance().clearPersistence()
+
+
+        walletDataViewModel = ViewModelProvider(this)[WalletDataViewModel::class.java]
 
         val BtnWalletConnect = binding.BtnWalletConnect
 
-        val share = requireContext().getSharedPreferences("SIGNUP", Context.MODE_PRIVATE)
-        val addressFromSignIn = share.getString("address",null) ?: "Not Got"
-        val choosenFromSignIn = share.getBoolean("choosen",false)
 
-        if (choosenFromSignIn)
-        {
+        val share = requireContext().getSharedPreferences("SIGNUP", Context.MODE_PRIVATE)
+        userID = share.getString("UNIQUEKEY", null) ?: "Not Got"
+        addressFromSignIn = share.getString("address", null) ?: "Not Got"
+        val choosenFromSignIn = share.getBoolean("choosen", false)
+
+        Log.d("HomeFragment","The Value of UserId -> $userID\n" +
+                "The Value of Addres : $addressFromSignIn\n" +
+                "The Value of Choosen : $choosenFromSignIn")
+
+        if (choosenFromSignIn) {
             binding.LLWalletConnectHomeFragment.visibility = View.GONE
             binding.SvWholeWalletUI.visibility = View.VISIBLE
-        }else{
+
+            tokenAdapterRv = TokenRvAdapter(tokenDataRv, onClick = {
+                Toast.makeText(requireContext(),"Clicked on The item",Toast.LENGTH_SHORT).show()
+            })
+
+            tokenRv = binding.RvTokensOfUsersHomeFragment
+            tokenRv.layoutManager = LinearLayoutManager(requireContext(),LinearLayoutManager.HORIZONTAL,false)
+            tokenRv.adapter = tokenAdapterRv
+
+            transactionAdapterRv = TransactionRvAdapter(transactionDataRv)
+            transactionRv = binding.RvTransactionsOfUsersHomeFragment
+            transactionRv.layoutManager = LinearLayoutManager(requireContext())
+
+            transactionRv.adapter = transactionAdapterRv
+
+
+            walletDataViewModel.SyncWallet(userID, addressFromSignIn)
+
+            //Transaction  observe ViewHolder
+            walletDataViewModel.transactionData.observe(viewLifecycleOwner){transaction->
+                transactionDataRv.clear()
+                transactionDataRv.addAll(transaction)
+                transactionAdapterRv.notifyDataSetChanged()
+
+                binding.RvTransactionsOfUsersHomeFragment.visibility =
+                    if (tokenDataRv.isEmpty()) View.GONE else View.VISIBLE
+                binding.TvNoTransactionsFoundHomeFragment.visibility =
+                    if (tokenDataRv.isEmpty()) View.VISIBLE else View.GONE
+
+            }
+
+            //Walllet Token Observe ViewHolder
+            walletDataViewModel.tokenData.observe(viewLifecycleOwner){data->
+
+                tokenDataRv.clear()
+
+                tokenDataRv.addAll(data)
+
+                tokenAdapterRv.notifyDataSetChanged()
+
+                binding.RvTokensOfUsersHomeFragment.visibility =
+                    if (tokenDataRv.isEmpty()) View.GONE else View.VISIBLE
+                binding.TvNoTokensFoundHomeFragment.visibility =
+                    if (tokenDataRv.isEmpty()) View.VISIBLE else View.GONE
+
+            }
+
+            walletDataViewModel.portfolioValue.observe(viewLifecycleOwner){value->
+                if (value == null) {
+                    binding.TvValueOFTokensTotalHomeFragment.text = "$0.0"
+                } else {
+                    binding.TvValueOFTokensTotalHomeFragment.text = "$${value.totalNetworthUsd}"
+                }
+            }
+
+            walletDataViewModel.loadingAnimation.observe(viewLifecycleOwner){animation->
+                if (animation)
+                {
+                    //For Token Rv
+                    binding.LoadingTokenHomeFragment.visibility = View.VISIBLE
+                    binding.LoadingTokenHomeFragment.repeatCount = LottieDrawable.INFINITE
+                    binding.LoadingTokenHomeFragment.playAnimation()
+
+                    //For Transaction Rv
+                    binding.LoadingTransactionHomeFragment.visibility = View.VISIBLE
+                    binding.LoadingTransactionHomeFragment.repeatCount = LottieDrawable.INFINITE
+                    binding.LoadingTransactionHomeFragment.playAnimation()
+                }else{
+                    //For Token Rv
+                    binding.LoadingTokenHomeFragment.visibility = View.GONE
+                    binding.LoadingTokenHomeFragment.cancelAnimation()
+
+                    //For Transaction Rv
+                    binding.LoadingTransactionHomeFragment.visibility = View.GONE
+                    binding.LoadingTransactionHomeFragment.cancelAnimation()
+                }
+            }
+
+            walletDataViewModel.walletDataFromFireStore(userID,addressFromSignIn)
+
+
+        } else {
             binding.LLWalletConnectHomeFragment.visibility = View.VISIBLE
             binding.SvWholeWalletUI.visibility = View.GONE
         }
 
 
         BtnWalletConnect.setOnClickListener {
+            binding.LoadingLottiAnimationHomeFragment.repeatCount = LottieDrawable.INFINITE
+            binding.LoadingLottiAnimationHomeFragment.visibility = View.VISIBLE
+            binding.LoadingLottiAnimationHomeFragment.playAnimation()
 
             lifecycleScope.launch {
                 showWalletList()
@@ -89,10 +217,16 @@ class HomeFragment : Fragment() {
                     selectedWalletNative = wallet.native
                     selectedWalletUniversal = wallet.universal
                     initiaieWalletConnect()
+
+//                    binding.LoadingLottiAnimationHomeFragment.repeatCount = LottieDrawable.INFINITE
+                    binding.LoadingLottiAnimationHomeFragment.visibility = View.GONE
+                    binding.LoadingLottiAnimationHomeFragment.cancelAnimation()
                 } else {
-                    Log.e("WalletConnect", "Wallet ${wallet.name} has no valid URI\n" +
-                            "The Native Link ${wallet.native}\n" +
-                            "The Universal Link ${wallet.universal}.")
+                    Log.e(
+                        "WalletConnect", "Wallet ${wallet.name} has no valid URI\n" +
+                                "The Native Link ${wallet.native}\n" +
+                                "The Universal Link ${wallet.universal}."
+                    )
                     Toast.makeText(
                         requireContext(),
                         "No connection URI available",
@@ -100,7 +234,12 @@ class HomeFragment : Fragment() {
                     ).show()
                 }
 
-            }.setNegativeButton("Cancel", null)
+            }.setNegativeButton("Cancel"){dialog,_->
+                binding.LoadingLottiAnimationHomeFragment.visibility = View.GONE
+                binding.LoadingLottiAnimationHomeFragment.cancelAnimation()
+                dialog.dismiss()
+
+            }
             .show()
 
     }
@@ -138,7 +277,8 @@ class HomeFragment : Fragment() {
                     val clean = it.removeSuffix("/")
                     if (clean.contains("://")) {
                         // Check if it ends with "/wc" or similar mistake
-                        val uriBase = if (clean.endsWith("/wc")) clean.removeSuffix("/wc") else clean
+                        val uriBase =
+                            if (clean.endsWith("/wc")) clean.removeSuffix("/wc") else clean
                         "$uriBase?uri=$encodedWcUri"
                     } else {
                         "$clean/wc?uri=$encodedWcUri"
@@ -155,7 +295,10 @@ class HomeFragment : Fragment() {
                 }
 
 
-                Log.d("WalletConnect", "Trying to open:\nNative: $nativeUri\nUniversal: $universalUri")
+                Log.d(
+                    "WalletConnect",
+                    "Trying to open:\nNative: $nativeUri\nUniversal: $universalUri"
+                )
 
                 connectViaURI(nativeUri, universalUri)
             },
@@ -169,7 +312,7 @@ class HomeFragment : Fragment() {
 
     private suspend fun fetchWallets(): List<WalletItem> = withContext(Dispatchers.IO) {
 
-            val client = OkHttpClient()
+        val client = OkHttpClient()
         val reuqest = Request.Builder()
             .url("https://explorer-api.walletconnect.com/v3/wallets?projectId=141281e6ec8c25ea34e7dd4497ab5d58")
             .header("User-Agent", "WalletConnectKotlinApp/1.0")
@@ -187,12 +330,11 @@ class HomeFragment : Fragment() {
             val walletJson = listings.getJSONObject(key)
 
             val mobile = walletJson.getJSONObject("mobile")
-            val native = mobile.optString("native",null)
-            val universal = mobile.optString("universal",null)
+            val native = mobile.optString("native", null)
+            val universal = mobile.optString("universal", null)
 
 
-            if (!native.isNullOrBlank() || !universal.isNullOrBlank())
-            {
+            if (!native.isNullOrBlank() || !universal.isNullOrBlank()) {
 
                 wallets.add(
                     WalletItem(
@@ -202,8 +344,11 @@ class HomeFragment : Fragment() {
                         universal = universal
                     )
                 )
-            }else {
-                Log.w("WalletConnect", "Skipping wallet: ${walletJson.getString("name")} — no valid URI")
+            } else {
+                Log.w(
+                    "WalletConnect",
+                    "Skipping wallet: ${walletJson.getString("name")} — no valid URI"
+                )
             }
 //            wallets.add(
 //                WalletItem(
@@ -217,85 +362,14 @@ class HomeFragment : Fragment() {
         wallets.sortedBy { it.name.lowercase() }
     }
 
-//    private fun connectViaURI(uri: String?) {
-//
-//        try {
-//            val parsedUri = Uri.parse(uri)
-//            val nativeIntent = Intent(Intent.ACTION_VIEW, parsedUri)
-//
-//            val canOpenNative = nativeIntent.resolveActivity(requireContext().packageManager) != null
-//
-//            Log.d("walletConnet","The CanOpenNative is : $canOpenNative")
-//
-//            if (canOpenNative) {
-//                startActivity(nativeIntent)
-//            } else {
-//                val fallbackUniversal = selectedWalletUniversal
-//                val wcQuery = parsedUri.getQueryParameter("wc")
-//
-//                if (!fallbackUniversal.isNullOrBlank() && !wcQuery.isNullOrBlank()) {
-//                    val fallbackUri = "$fallbackUniversal?wc=${Uri.encode(wcQuery)}"
-//                    Log.d("WalletConnect", "Fallback to browser: $fallbackUri")
-//                    val browserIntent = Intent(Intent.ACTION_VIEW, Uri.parse(fallbackUri))
-//
-////                    if (browserIntent.resolveActivity(requireContext().packageManager) != null) {
-//                        startActivity(browserIntent)
-////                    } else {
-////                        Toast.makeText(requireContext(), "No browser found to open wallet", Toast.LENGTH_SHORT).show()
-////                    }
-//                } else {
-//                    requireActivity().runOnUiThread {
-//                        Toast.makeText(requireContext(), "No valid URI to open", Toast.LENGTH_SHORT)
-//                            .show()
-//                    }
-//                }
-//            }
-//        } catch (e: Exception) {
-//            Log.e("WalletConnect", "Exception while opening URI: $e")
-//            Toast.makeText(requireContext(), "Invalid wallet link", Toast.LENGTH_SHORT).show()
-//        }
-//    }
-//
-//    private fun connectViaURI(nativeUri: String?, universalUri: String?) {
-//        try {
-//            var launched = false
-//
-//            if (!nativeUri.isNullOrBlank()) {
-//                val nativeIntent = Intent(Intent.ACTION_VIEW, Uri.parse(nativeUri))
-//                if (nativeIntent.resolveActivity(requireContext().packageManager) != null) {
-//                    Log.d("WalletConnect", "Launching native URI: $nativeUri")
-//                    startActivity(nativeIntent)
-//                    launched = true
-//                }
-//            }
-//
-//            if (!launched && !universalUri.isNullOrBlank()) {
-//                val universalIntent = Intent(Intent.ACTION_VIEW, Uri.parse(universalUri))
-//                if (universalIntent.resolveActivity(requireContext().packageManager) != null) {
-//                    Log.d("WalletConnect", "Launching universal URI: $universalUri")
-//                    startActivity(universalIntent)
-//                    launched = true
-//                }
-//            }
-//
-//            if (!launched) {
-//                Log.w("WalletConnect", "No wallet app could handle the intent")
-//                requireActivity().runOnUiThread {
-//                    Toast.makeText(requireContext(), "No wallet app found", Toast.LENGTH_SHORT)
-//                        .show()
-//                }
-//            }
-//
-//        } catch (e: Exception) {
-//            Log.e("WalletConnect", "URI open failed", e)
-//            requireActivity().runOnUiThread {
-//                Toast.makeText(requireContext(), "Failed to open wallet", Toast.LENGTH_SHORT).show()
-//            }
-//        }
-//    }
 
     private fun connectViaURI(nativeUri: String?, universalUri: String?) {
         try {
+            activity?.runOnUiThread {
+                binding.LoadingLottiAnimationHomeFragment.repeatCount = LottieDrawable.INFINITE
+                binding.LoadingLottiAnimationHomeFragment.visibility = View.VISIBLE
+                binding.LoadingLottiAnimationHomeFragment.playAnimation()
+            }
             var launched = false
 
             nativeUri?.let {
@@ -305,6 +379,10 @@ class HomeFragment : Fragment() {
                     startActivity(intent)
                     launched = true
                 } catch (e: Exception) {
+                    activity?.runOnUiThread {
+                        binding.LoadingLottiAnimationHomeFragment.visibility = View.GONE
+                        binding.LoadingLottiAnimationHomeFragment.cancelAnimation()
+                    }
                     Log.w("WalletConnect", "Native intent failed: ${e.message}")
                 }
             }
@@ -316,12 +394,17 @@ class HomeFragment : Fragment() {
                     startActivity(intent)
                     launched = true
                 } catch (e: Exception) {
+                    binding.LoadingLottiAnimationHomeFragment.visibility = View.GONE
+                    binding.LoadingLottiAnimationHomeFragment.cancelAnimation()
                     Log.w("WalletConnect", "Universal intent failed: ${e.message}")
                 }
             }
 
             if (!launched) {
                 requireActivity().runOnUiThread {
+                    binding.LoadingLottiAnimationHomeFragment.visibility = View.GONE
+                    binding.LoadingLottiAnimationHomeFragment.cancelAnimation()
+
                     Toast.makeText(requireContext(), "No wallet app found", Toast.LENGTH_SHORT)
                         .show()
                 }
@@ -330,13 +413,14 @@ class HomeFragment : Fragment() {
         } catch (e: Exception) {
             Log.e("WalletConnect", "URI open failed", e)
             requireActivity().runOnUiThread {
+
+                binding.LoadingLottiAnimationHomeFragment.visibility = View.GONE
+                binding.LoadingLottiAnimationHomeFragment.cancelAnimation()
+
                 Toast.makeText(requireContext(), "Failed to open wallet", Toast.LENGTH_SHORT).show()
             }
         }
     }
-
-
-
 
 
     private fun setupSignDelegate() {
@@ -347,6 +431,8 @@ class HomeFragment : Fragment() {
                 Log.d("WalletConnection", "Connection state: ${state.isAvailable}")
                 if (!state.isAvailable) {
                     requireActivity().runOnUiThread {
+                        binding.LoadingLottiAnimationHomeFragment.visibility = View.GONE
+                        binding.LoadingLottiAnimationHomeFragment.cancelAnimation()
                         Toast.makeText(
                             requireContext(),
                             "Disconnected from WalletConnect relay",
@@ -359,6 +445,8 @@ class HomeFragment : Fragment() {
             // ❌ Internal SDK errors
             override fun onError(error: Sign.Model.Error) {
                 requireActivity().runOnUiThread {
+                    binding.LoadingLottiAnimationHomeFragment.visibility = View.GONE
+                    binding.LoadingLottiAnimationHomeFragment.cancelAnimation()
                     Toast.makeText(
                         requireContext(),
                         "WalletConnect error occurred",
@@ -375,7 +463,14 @@ class HomeFragment : Fragment() {
                 val walletAddress = approvedSession.accounts.firstOrNull()?.split(":")?.last()
                 Log.d("WalletConnection", "Approved wallet Address : $walletAddress")
 
+                val share = requireContext().getSharedPreferences("SIGNUP", Context.MODE_PRIVATE)
+                val choosenFromSignIn = share.getBoolean("choosen", false)
+                share.edit().putBoolean("choosen",true).apply()
+                share.edit().putString("address",walletAddress).apply()
+
                 requireActivity().runOnUiThread {
+                    binding.LoadingLottiAnimationHomeFragment.visibility = View.GONE
+                    binding.LoadingLottiAnimationHomeFragment.cancelAnimation()
                     binding.LLWalletConnectHomeFragment.visibility = View.GONE
                     binding.SvWholeWalletUI.visibility = View.VISIBLE
                     Toast.makeText(
@@ -398,7 +493,10 @@ class HomeFragment : Fragment() {
                 Log.d("WalletConnect", "Session deleted")
 
                 requireActivity().runOnUiThread {
-                    Toast.makeText(requireContext(), "Wallet disconnected", Toast.LENGTH_SHORT).show()
+                    binding.LoadingLottiAnimationHomeFragment.visibility = View.GONE
+                    binding.LoadingLottiAnimationHomeFragment.cancelAnimation()
+                    Toast.makeText(requireContext(), "Wallet disconnected", Toast.LENGTH_SHORT)
+                        .show()
                     binding.LLWalletConnectHomeFragment.visibility = View.VISIBLE
                     binding.SvWholeWalletUI.visibility = View.GONE
                 }
@@ -425,6 +523,8 @@ class HomeFragment : Fragment() {
             override fun onSessionRejected(rejectedSession: Sign.Model.RejectedSession) {
                 Log.e("WalletConnection", "Session rejected")
                 requireActivity().runOnUiThread {
+                    binding.LoadingLottiAnimationHomeFragment.visibility = View.GONE
+                    binding.LoadingLottiAnimationHomeFragment.cancelAnimation()
                     Toast.makeText(
                         requireContext(),
                         "Wallet connection rejected",
@@ -462,17 +562,19 @@ class HomeFragment : Fragment() {
             val addressMap = mapOf(
                 "address" to address,
                 "choosen" to true
-                )
+            )
             FirebaseDatabase.getInstance().getReference("USERS").child(unqiueKey).child("wallets")
-                .child(address).updateChildren(addressMap).addOnCompleteListener { task->
-                    if(task.isSuccessful)
-                    {
-                        Log.d("WalletConnect","SuccessFully Stored Address in RealTimeDatabase")
-                    }else{
-                        Log.d("WalletConnect","Error Storing Address in RealTimeDatabase Error:${task.exception}")
+                .child(address).updateChildren(addressMap).addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d("WalletConnect", "SuccessFully Stored Address in RealTimeDatabase")
+                    } else {
+                        Log.d(
+                            "WalletConnect",
+                            "Error Storing Address in RealTimeDatabase Error:${task.exception}"
+                        )
                     }
                 }
-        }else {
+        } else {
             Log.e("WalletConnect", "UNIQUEKEY is null or empty")
         }
     }
@@ -488,15 +590,16 @@ class HomeFragment : Fragment() {
                 onSuccess = {
                     Log.d("WalletConnect", "Successfully disconnected session: ${session.topic}")
                 },
-                onError = {error->
-                    Log.e("WalletConnect", "Failed to disconnect session: ${session.topic}, error: ${error.throwable}")
+                onError = { error ->
+                    Log.e(
+                        "WalletConnect",
+                        "Failed to disconnect session: ${session.topic}, error: ${error.throwable}"
+                    )
                 }
 
             )
         }
     }
-
-
 
 
     data class WalletItem(
@@ -509,5 +612,11 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        walletDataViewModel.SyncWallet(userID, addressFromSignIn)
     }
 }

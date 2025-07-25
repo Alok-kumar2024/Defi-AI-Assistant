@@ -17,6 +17,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.airbnb.lottie.LottieDrawable
 import com.example.myapplication.R
 import com.example.myapplication.databinding.ActivitySignInBinding
+import com.example.myapplication.model.ThemeHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -47,6 +48,12 @@ class SignIn : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
+        val sharetheme = getSharedPreferences("theme", MODE_PRIVATE)
+        val savedTheme =
+            sharetheme.getString("themeOption", ThemeHelper.SYSTEM) ?: ThemeHelper.SYSTEM
+        ThemeHelper.applyTheme(savedTheme)
+
         binding = ActivitySignInBinding.inflate(layoutInflater)
         setContentView(binding.root)
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -63,6 +70,7 @@ class SignIn : AppCompatActivity() {
             startActivity(intent)
             finish()
         }
+
 
         binding.BtnSignIn.setOnClickListener {
 
@@ -119,8 +127,10 @@ class SignIn : AppCompatActivity() {
                         val share = getSharedPreferences("SIGNUP", MODE_PRIVATE)
                         val editor = share.edit()
 
-                        editor.putString("EMAIL",email.toString()).apply()
-                        editor.putString("UNIQUEKEY",uniqueKey).apply()
+                        editor.putString("EMAIL",email.toString())
+                        editor.putString("UNIQUEKEY",uniqueKey)
+                        editor.putBoolean("SignIn",true)
+                        editor.apply()
 
                         FirebaseDatabase.getInstance().getReference("USERS").child(uniqueKey)
                             .child("wallets").orderByChild("choosen").equalTo(true)
@@ -143,8 +153,9 @@ class SignIn : AppCompatActivity() {
                                             val choosen = user?.get("choosen") ?: "Not Got"
                                             Log.d("SignIn","The Address of the choosen Wallet : $address\n The Choosen Value : $choosen")
 
-                                            editor.putString("address", address.toString()).apply()
-                                            editor.putBoolean("choosen", choosen as Boolean).apply()
+                                            editor.putString("address", address.toString())
+                                            editor.putBoolean("choosen", choosen as Boolean)
+                                            editor.apply()
 
                                             val intent = Intent(this@SignIn,MainActivity::class.java)
                                             startActivity(intent)

@@ -10,12 +10,13 @@
 
     <TextView
         style="@style/TopTextSignIn"
-        android:id="@+id/TvNews_CryptoNews"
-        android:layout_width="wrap_content"
+        android:id="@+id/TvNewsTitle_CryptoNews"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginStart="5dp"
         android:textSize="20sp"
+        android:paddingStart="5dp"
         android:text="new"
         android:textStyle="bold"
         app:layout_constraintHorizontal_bias="0.052"
@@ -24,10 +25,9 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        style="@style/TopImageSignIn"
         android:id="@+id/IVNewsImage_CryptoNews"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         android:layout_margin="10dp"
         android:src="@drawable/bit_coin_vector"
         app:layout_constraintRight_toRightOf="parent"
@@ -38,15 +38,35 @@
         android:scaleType="centerCrop"/>
 
     <TextView
-        style="@style/SecondartText"
         android:id="@+id/TvTimeAndOther_CryptoNews"
-        android:layout_width="wrap_content"
+        style="@style/SecondartText"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:text="coin Desk * 2hr ago"
+        android:paddingStart="10dp"
+        app:layout_constraintHorizontal_bias="0.08"
         app:layout_constraintLeft_toLeftOf="parent"
-        android:layout_marginTop="10dp"
-        app:layout_constraintTop_toBottomOf="@id/TvNews_CryptoNews"
-        android:layout_marginStart="20sp"/>
+        app:layout_constraintRight_toLeftOf="@+id/IVNewsImage_CryptoNews"
+        app:layout_constraintTop_toBottomOf="@id/TvNewsTitle_CryptoNews" />
+
+    <TextView
+        style="@style/SecondartText"
+        android:id="@+id/TvNewsBody_CryptoNews"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:textSize="18sp"
+        android:text="new Body"
+        android:paddingStart="5dp"
+        android:inputType="textMultiLine"
+        app:layout_constraintHorizontal_bias="0.052"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/IVNewsImage_CryptoNews"
+        app:layout_constraintTop_toBottomOf="@+id/TvTimeAndOther_CryptoNews"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="20sp"/>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

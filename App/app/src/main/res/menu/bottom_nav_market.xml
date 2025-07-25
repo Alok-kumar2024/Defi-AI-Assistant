@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn= "navigation_view">
+
+    <item android:id="@+id/MarketNav_Coins"
+        android:title="Coins"
+        android:icon="@drawable/bit_coin_vector"/>
+
+    <item android:id="@+id/MarketNav_News"
+        android:title="Crypto News"
+        android:icon="@drawable/crypto_news_vector"/>
+
+</menu>
