@@ -4,10 +4,20 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.myapplication.model.API_KEY
 import com.example.myapplication.model.ChatBotService
 import com.example.myapplication.model.ChatMessages
+import com.google.ai.client.generativeai.GenerativeModel
+import com.google.ai.client.generativeai.type.content
 
 class AI_Suggestion_ViewModel : ViewModel() {
+
+    val generativeai : GenerativeModel = GenerativeModel(
+        modelName = "gemini-pro",
+        apiKey = "AIzaSyC5Y3ck9HFcM9qBmqA0CBtYarQSn0re6BE"
+    )
+
+    val prompt = "You are a crypto expert. Only answer questions about cryptocurrency."
 
     private val _chatHistory = MutableLiveData<MutableList<ChatMessages>>()
     val chatHistory : LiveData<MutableList<ChatMessages>> = _chatHistory
@@ -15,27 +25,28 @@ class AI_Suggestion_ViewModel : ViewModel() {
     private val _waitForResponse = MutableLiveData<Boolean>(false)
     val waitForResponse : LiveData<Boolean> = _waitForResponse
 
-    fun sendMessage(userMsg : String){
+    fun sendMessage(userMsgs : String){
 
         _waitForResponse.postValue(true)
-        Log.d("AI_ViewModel","User Message Send : $userMsg")
+        Log.d("AI_ViewModel","User Message Send : $userMsgs")
 
-        val updatedHistory = _chatHistory.value ?: mutableListOf()
+        val userMsg = userMsgs.replace("\"", "\\\"")
+        .replace("\n", "\\n")
 
-        updatedHistory.add(ChatMessages("user",userMsg))
-        val typing = ChatMessages("assistant","Typing....")
-        updatedHistory.add(typing)
-        _chatHistory.postValue(updatedHistory)
+        val history = _chatHistory.value ?: mutableListOf()
 
-        val messageForAPI = mutableListOf<ChatMessages>()
-        messageForAPI.add(ChatMessages("system", "You are a crypto assistant. Only answer crypto-related questions."))
-        messageForAPI.addAll(updatedHistory)
+        history.add(ChatMessages("user",userMsg))
+        val typing = ChatMessages("model","Typing...")
+        history.add(typing)
+        _chatHistory.value = history
 
-        ChatBotService.askAiBot(messageForAPI){reply->
-            updatedHistory.add(ChatMessages("assistant",reply?: "Something Went Wrong"))
-            updatedHistory.remove(typing)
-            _chatHistory.postValue(updatedHistory)
-            _waitForResponse.postValue(false)
+        ChatBotService.askGemini(history){response->
+            response?.let {
+                history.add(ChatMessages("model",it))
+                history.remove(typing)
+                _chatHistory.postValue(history)
+                _waitForResponse.postValue(false)
+            }
         }
     }
 }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    style="@style/theme_alertDialogBackground"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:padding="10dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:id="@+id/IvWalletIcon_WalletList"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/bit_coin_vector"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        style="@style/SettingsTextPrimary"
+        android:id="@+id/TvWalletName_WalletList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wallet Name"
+        app:layout_constraintLeft_toRightOf="@+id/IvWalletIcon_WalletList"
+        app:layout_constraintTop_toTopOf="parent"
+        android:textSize="18sp"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_marginStart="5dp"
+        android:textStyle="bold"
+        android:layout_marginTop="5dp"/>
+
+    <TextView
+        style="@style/SettingsTextSecondary"
+        android:id="@+id/TvWalletAddress_WalletList"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Wallet Address"
+        app:layout_constraintLeft_toRightOf="@+id/IvWalletIcon_WalletList"
+        app:layout_constraintTop_toBottomOf="@id/TvWalletName_WalletList"
+        android:textSize="16sp"
+        android:fontFamily="sans-serif-condensed"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="2dp"/>
+
+    <ImageView
+        android:id="@+id/IvChoosenWallet_Wallet"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/choosen_vector"
+        android:layout_marginEnd="5dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

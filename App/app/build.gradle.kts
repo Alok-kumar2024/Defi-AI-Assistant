@@ -49,6 +49,7 @@ dependencies {
     implementation(libs.firebase.auth)
     implementation(libs.firebase.database)
     implementation(libs.firebase.firestore)
+    implementation(libs.firebase.messaging)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -84,6 +85,11 @@ dependencies {
     implementation (libs.retrofit)
     implementation (libs.converter.gson)
     implementation("com.google.code.gson:gson:2.10.1")
+
+    //gemini dependency
+    implementation("com.google.ai.client.generativeai:generativeai:0.4.0")
+
+    implementation("io.noties.markwon:core:4.6.2")
 
 
 }

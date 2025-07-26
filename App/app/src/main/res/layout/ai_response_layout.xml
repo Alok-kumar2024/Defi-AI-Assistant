@@ -1,30 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    style="@style/LLBotChat"
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/LLBot"
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="start">
+    android:layout_gravity="start"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <ImageView
-        android:id="@+id/IvUserChatLayout"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_gravity="center"
-        android:src="@drawable/ai_vector"
-        android:layout_marginVertical="10dp"
-        android:layout_marginHorizontal="10dp"/>
-
-    <TextView
-        style="@style/TvUserChat"
-        android:id="@+id/Bot_text"
-        android:layout_width="0dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:textSize="24sp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginVertical="10dp"
-        android:fontFamily="sans-serif-condensed"
-        android:layout_marginHorizontal="10dp" />
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginVertical="5dp"
+        android:layout_marginHorizontal="5dp"
+        app:layout_constraintBottom_toBottomOf="parent">
 
-</LinearLayout>
+<!--        <ImageView-->
+<!--            android:id="@+id/IvUserChatLayout"-->
+<!--            android:layout_width="40dp"-->
+<!--            android:layout_height="40dp"-->
+<!--            android:layout_gravity="start|top"-->
+<!--            android:src="@drawable/ai_vector"-->
+<!--            android:layout_marginVertical="10dp"-->
+<!--            android:layout_marginHorizontal="10dp"/>-->
+
+        <TextView
+            style="@style/TvUserChat"
+            android:id="@+id/Bot_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textIsSelectable="true"
+            android:textSize="18sp"
+            android:layout_marginEnd="2dp"
+            android:layout_marginVertical="10dp"
+            android:fontFamily="sans-serif-condensed"
+            android:layout_marginHorizontal="10dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

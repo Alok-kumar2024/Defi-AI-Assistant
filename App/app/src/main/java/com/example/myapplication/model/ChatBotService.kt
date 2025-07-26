@@ -9,56 +9,58 @@ import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.Response
-import okhttp3.ResponseBody.Companion.toResponseBody
-import retrofit2.http.Query
 import java.io.IOException
 
 object ChatBotService {
     private val client = OkHttpClient()
 
-//    const val OPENAI_API_KEY = "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"
-    const val OPENAI_API_KEY ="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"
-    const val OPENAI_URL = "https://api.openai.com/v1/chat/completions"
+    const val gemini_url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent"
 
-    fun askAiBot(message : MutableList<ChatMessages>,callBack : (String?) -> Unit){
+    private val gson = Gson()
 
-        val requestBody = ChatRequest(messages = message)
-        val gson = Gson()
-        val json = gson.toJson(requestBody)
+    fun askGemini(
+        chatHistory : MutableList<ChatMessages>,
+        onResult : (String?) -> Unit
+    ){
 
-        val body = json.toRequestBody("application/json".toMediaType())
+//        val jsonMessages = chatHistory.joinToString(",") {
+//            """{"role":"${it.role}","parts":[{"text":"${it.content}"}]}""".trimIndent()
+//        }
+//        val json = """{ "contents": [ $jsonMessages] }"""
+        val contentList = chatHistory.map {
+            mapOf(
+                "role" to it.role,
+                "parts" to listOf(mapOf("text" to it.content))
+            )
+        }
+
+        val payload = mapOf("contents" to contentList)
+        val json = gson.toJson(payload)  // ✅ safely handles all escaping
 
         val request = Request.Builder()
-            .url(OPENAI_URL)
-            .addHeader("Authorization", "Bearer ${OPENAI_API_KEY}")
-            .addHeader("Content-Type", "application/json")
-            .post(body)
+            .url("$gemini_url?key=${API_KEY.gemini_api_key}")
+            .post(json.toRequestBody("application/json".toMediaType()))
             .build()
 
-        client.newCall(request).enqueue(object : Callback {
+        client.newCall(request).enqueue(object : Callback{
             override fun onFailure(call: Call, e: IOException) {
-                callBack(null)
+                onResult("Error : ${e.message}")
             }
 
             override fun onResponse(call: Call, response: Response) {
-                response.body?.string()?.let {
-                    Log.d("AI_RAW_RESPONSE", it) //
-
-                    if (response.code == 429 || response.code == 400) {
-                        Log.e("AI", "Quota exceeded or invalid request")
-                        callBack("Oops! You’ve hit the usage limit. Try again later.")
-                        return
-                    }
-
-                    val result = gson.fromJson(it,ChatResponse::class.java)
-
-                    val reply = result?.choices?.firstOrNull()?.message?.content
-
-                    Log.d("AI", "The Message: $reply")
-                    callBack(reply)
-                } ?: callBack(null)
+                val body = response.body?.string()
+                val res = gson.fromJson(body,GeminiResponse::class.java)
+                val reply = res?.candidates?.firstOrNull()?.content?.parts?.firstOrNull()?.text
+                Log.d("ChatBotService","reply -> $reply,\n res -> $res,\n body -> $body")
+                onResult(reply ?: "No Response from Gemini.")
             }
 
         })
+
     }
+    data class GeminiResponse(val candidates: List<Candidate>)
+    data class Candidate(val content: Content)
+    data class Content(val parts: List<Part>)
+    data class Part(val text: String)
+
 }

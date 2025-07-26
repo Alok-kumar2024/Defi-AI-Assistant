@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity.MODE_PRIVATE
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
 import com.example.myapplication.databinding.FragmentAiSuggestionsBinding
@@ -15,6 +16,7 @@ import com.example.myapplication.model.ChatMessages
 import com.example.myapplication.model.ThemeHelper
 import com.example.myapplication.viewModel.AI_Suggestion_ViewModel
 import com.example.myapplication.viewModel.AI_adapter
+import kotlinx.coroutines.launch
 
 class Ai_SuggestionsFragment : Fragment() {
 
@@ -56,6 +58,12 @@ class Ai_SuggestionsFragment : Fragment() {
             chatMessages.clear()
             chatMessages.addAll(chat.reversed())
 
+            if(!chat.isEmpty()){
+                bindning.TvHowAssistAI.visibility = View.GONE
+            }else{
+                bindning.TvHowAssistAI.visibility = View.VISIBLE
+            }
+
             chatAdapter.notifyDataSetChanged()
         }
 
@@ -76,7 +84,9 @@ class Ai_SuggestionsFragment : Fragment() {
                 return@setOnClickListener
             }
 
-            viewModelAI.sendMessage(query)
+            viewLifecycleOwner.lifecycleScope.launch {
+                viewModelAI.sendMessage(query)
+            }
 
             etQuery.text.clear()
         }

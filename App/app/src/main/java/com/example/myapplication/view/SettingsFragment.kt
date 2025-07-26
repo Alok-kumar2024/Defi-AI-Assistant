@@ -92,6 +92,15 @@ class SettingsFragment : Fragment() {
             startActivity(intent)
         }
 
+        binding.LLConnectedWalletsSettings.setOnClickListener {
+            val intent = Intent(requireContext(),WalletSettingsActivity::class.java)
+            startActivity(intent)
+        }
+        binding.IBWallletConnectSettings.setOnClickListener {
+            val intent = Intent(requireContext(),WalletSettingsActivity::class.java)
+            startActivity(intent)
+        }
+
 
         return binding.root
     }

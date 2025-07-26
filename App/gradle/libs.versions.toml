@@ -1,6 +1,8 @@
 [versions]
 agp = "8.10.1"
 bubblenavigation = "1.0.7"
+generativeai = "1.0.0"
+generativeaiVersion = "0.4.0"
 glide = "4.16.0"
 gson = "2.13.1"
 kotlin = "2.0.21"
@@ -19,12 +21,15 @@ googleGmsGoogleServices = "4.4.3"
 firebaseAuth = "23.2.1"
 firebaseDatabase = "21.0.0"
 firebaseFirestore = "25.1.4"
+firebaseMessaging = "25.0.0"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-swiperefreshlayout = { module = "androidx.swiperefreshlayout:swiperefreshlayout", version.ref = "swiperefreshlayout" }
 bubblenavigation = { module = "com.gauravk.bubblenavigation:bubblenavigation", version.ref = "bubblenavigation" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
+generativeai = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeai" }
+generativeai-v040 = { module = "com.google.ai.client.generativeai:generativeai", version.ref = "generativeaiVersion" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
@@ -39,6 +44,7 @@ firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version
 firebase-database = { group = "com.google.firebase", name = "firebase-database", version.ref = "firebaseDatabase" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version.ref = "firebaseFirestore" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

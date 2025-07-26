@@ -168,71 +168,71 @@
 
         <Button
             style="@style/BtnSignIn"
-            android:id="@+id/BtnSignIn"
+            android:id="@+id/BtnSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sign Up"
             android:textSize="22sp"
             android:layout_marginHorizontal="70dp"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="25dp"
             android:background="@drawable/bg_text_signin_up_small_corner"
             app:backgroundTint="@color/blue"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/TILConfirmpasswordSignUp"/>
 
-        <LinearLayout
-            android:id="@+id/LLDividerSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="30dp"
-            android:gravity="center"
-            app:layout_constraintTop_toBottomOf="@+id/BtnSignIn">
+<!--        <LinearLayout-->
+<!--            android:id="@+id/LLDividerSignUp"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="horizontal"-->
+<!--            android:layout_marginTop="30dp"-->
+<!--            android:gravity="center"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/BtnSignIn">-->
 
-            <View
-                style="@style/DividerViewSignIn"
-                android:layout_width="100dp"
-                android:layout_height="1dp"
-                android:layout_gravity="center"
-                android:layout_marginStart="20dp"
-                android:layout_marginEnd="10dp"
-                android:background="@color/black" />
+<!--            <View-->
+<!--                style="@style/DividerViewSignIn"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:layout_gravity="center"-->
+<!--                android:layout_marginStart="20dp"-->
+<!--                android:layout_marginEnd="10dp"-->
+<!--                android:background="@color/black" />-->
 
-            <TextView
-                style="@style/TopTextSignIn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="OR Sign Up With"
-                android:textSize="20sp"
-                android:textStyle="bold"/>
+<!--            <TextView-->
+<!--                style="@style/TopTextSignIn"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="OR Sign Up With"-->
+<!--                android:textSize="20sp"-->
+<!--                android:textStyle="bold"/>-->
 
-            <View
-                style="@style/DividerViewSignIn"
-                android:layout_width="100dp"
-                android:layout_height="1dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="20dp"
-                android:background="@color/black"
-                android:layout_gravity="center"/>
+<!--            <View-->
+<!--                style="@style/DividerViewSignIn"-->
+<!--                android:layout_width="100dp"-->
+<!--                android:layout_height="1dp"-->
+<!--                android:layout_marginStart="10dp"-->
+<!--                android:layout_marginEnd="20dp"-->
+<!--                android:background="@color/black"-->
+<!--                android:layout_gravity="center"/>-->
 
 
-        </LinearLayout>
+<!--        </LinearLayout>-->
 
-        <Button
-            style="@style/BtnWalletSignIn"
-            android:id="@+id/BtnSignUpWithWallet"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/LLDividerSignUp"
-            android:layout_marginTop="20dp"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            android:drawableLeft="@drawable/wallet_vector"
-            android:text="Sign Up With Wallet"
-            android:textSize="20dp"
-            android:fontFamily="sans-serif"
-            android:background="@drawable/bg_text_signin_up_small_corner"/>
+<!--        <Button-->
+<!--            style="@style/BtnWalletSignIn"-->
+<!--            android:id="@+id/BtnSignUpWithWallet"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:layout_constraintTop_toBottomOf="@id/LLDividerSignUp"-->
+<!--            android:layout_marginTop="20dp"-->
+<!--            app:layout_constraintLeft_toLeftOf="parent"-->
+<!--            app:layout_constraintRight_toRightOf="parent"-->
+<!--            android:drawableLeft="@drawable/wallet_vector"-->
+<!--            android:text="Sign Up With Wallet"-->
+<!--            android:textSize="20dp"-->
+<!--            android:fontFamily="sans-serif"-->
+<!--            android:background="@drawable/bg_text_signin_up_small_corner"/>-->
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -241,7 +241,9 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             android:layout_marginVertical="30sp"
-            app:layout_constraintTop_toBottomOf="@+id/BtnSignUpWithWallet"
+            app:layout_constraintTop_toBottomOf="@+id/BtnSignUp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             android:gravity="center">
 
             <TextView

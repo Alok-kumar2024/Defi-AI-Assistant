@@ -173,22 +173,29 @@
 <!--    User Chat AI-Style-->
     <style name="LLUserChat">
         <item name="android:background">@drawable/bg_text_signin_up_small_corner</item>
-        <item name="android:backgroundTint">@color/blue</item>
+        <item name="android:backgroundTint">@color/gray_dark</item>
+        <item name="android:elevation">5dp</item>
     </style>
 
     <style name="TvUserChat">
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
 <!--    Bot Chat AI-Style-->
-    <style name="LLBotChat">
-        <item name="android:background">@drawable/bg_text_signin_up_small_corner</item>
-        <item name="android:backgroundTint">@color/green_dark</item>
-    </style>
+<!--    <style name="LLBotChat">-->
+<!--        <item name="android:background">@drawable/bg_text_signin_up_small_corner</item>-->
+<!--        <item name="android:backgroundTint">@color/green_dark</item>-->
+<!--    </style>-->
 
 <!--    Loading Animation-->
     <style name="LoadingAnimation">
         <item name="lottie_colorFilter">@color/black</item>
+    </style>
+
+    <style name="WalletListRv_Background">
+        <item name="android:background">@drawable/rounded_corner</item>
+        <item name="android:backgroundTint">#FFFFFF</item>
+        <item name="android:elevation">12dp</item>
     </style>
 
 
